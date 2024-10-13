@@ -1,47 +1,58 @@
 import React from 'react';
+import {useState} from 'react';
 import "./index.css";
 import { Flex } from 'antd';
 
-class Header extends React.Component{
-    constructor(){
-        super();
-        this.state = {
-            bookName : "",
-            added : 0,
-            hide : false,
-        }
-    };
-
-   handleEvent = (e) => {
-      const {name,value} = e.target;
-      this.setState({
-         [name] : value
-      });
-      console.log(this.state);
-      
-        
+const Header = () => {
+ 
+    const [bookName,changeBook] = useState("");
+    const [books,addBooks] = useState([]);
+    const [filteredBooks, setFilteredBooks] = useState([]);
+    const [hide,changeHide] = useState(true);
+   
+  const  handleEvent = (e) => {
+      changeBook(e.target.value); 
+    
+                
    };
 
-   addChild = (e) => {
+   const addChild = (e) => {
       e.preventDefault();
-      let value = this.state.bookName;
-      let p = document.createElement('p');
-      p.innerHTML = value;
-      document.getElementById('content').appendChild(p);
-      this.setState({added: this.state.added + 1})
-     
+      addBooks([...books,bookName]);
+      setFilteredBooks([...books,bookName]);
+      changeBook("");
       
-
+     
    };
 
-   hideContent = () =>{
-      this.setState({
-           hide : !this.state.hide
-      })
-   }
 
-    render(){
-  
+
+
+   const hideContent = () =>{
+       changeHide(!hide)
+   };
+
+
+   const deleteBook = (i) => {
+      addBooks(books.filter((book,index) => index !== i));
+   } 
+ 
+
+   const searchBooks = (event) => {
+         event.preventDefault();
+         const query = event.target.value; 
+         if (query) {
+             const results = books.filter(book => book.includes(query));
+             setFilteredBooks(results);
+         } else {
+             setFilteredBooks(books); 
+         }
+       
+   }
+   
+
+
+
        return (
         <div className='header'>
              <div className='header-content1'>
@@ -49,8 +60,8 @@ class Header extends React.Component{
                <p style={{marginTop:'20px',fontSize:'30px'}}>Libarary</p>
                <p>Books for Students</p>
       
-               <form>
-                 <input type='text' placeholder='Search books...'></input>
+               <form onSubmit={searchBooks}>
+                 <input type='text' placeholder='Search books...' onChange={searchBooks}></input>
                </form>
                </Flex>
                
@@ -60,24 +71,36 @@ class Header extends React.Component{
                   <p>Books To Read</p>
 
                 
-                  <div id='content' style={{fontSize:'18px'}}>
+                {hide && <div id='content' style={{fontSize:'18px'}}>
+                   {
+                     filteredBooks.map((book,i) => {
+                        return <p>{book} <button className='buttonss' onClick={()=> deleteBook(i)}>Delete</button></p>
+                     })
+                   }
                   
-                 </div>
+                  </div>
+                  }
 
-                 
-                  <Flex justify='center'>
+                  <Flex vertical align='center' gap='small'>
+                  <div className='hidden'>
+                     <form>
+                     <input type="checkbox" onChange={hideContent}/><span>Hide All Books</span>
+                     </form>
+                  </div>
                   <form>
                     
-                    <input type='text' name='bookName' placeholder='Add a book' onChange={this.handleEvent} className='input2'/><button onClick={this.addChild} className='button2'>Add</button>
+                     <input type='text' name='bookName' placeholder='Add a book' onChange={handleEvent} className='input2' value={bookName}/><button onClick={addChild} className='button2'>Add</button>
+                   
                   </form>
                   </Flex>
                </div>
         </div>
        )
     }
-};
+
 
 
 export default Header;
+
 
 
