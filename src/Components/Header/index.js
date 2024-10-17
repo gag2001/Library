@@ -35,6 +35,7 @@ const Header = () => {
 
    const deleteBook = (i) => {
       addBooks(books.filter((book,index) => index !== i));
+      setFilteredBooks(filteredBooks.filter((book,index) => index !== i));
    } 
  
 
