@@ -54,6 +54,9 @@ const Header = () => {
          catch(error){
          alert(error.message);
       }
+      finally{
+         alert('hey')
+      }
        
    }
    
