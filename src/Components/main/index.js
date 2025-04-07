@@ -57,6 +57,7 @@ const Header = () => {
       finally{
          alert('oops');
          alert('bye');
+         alert('thanks');
       }
        
    }
