@@ -55,7 +55,7 @@ const Header = () => {
          alert(error.message);
       }
       finally{
-         alert('hey')
+         alert('oops');
       }
        
    }
