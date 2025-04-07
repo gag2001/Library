@@ -41,10 +41,7 @@ const Header = () => {
       }
     } catch (error) {
       alert(error.message);
-    } finally {
-      alert("oops");
-      alert("bye");
-    }
+    } 
   };
 
   return (
