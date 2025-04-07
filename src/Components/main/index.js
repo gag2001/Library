@@ -5,22 +5,22 @@ import { Flex } from 'antd';
 
 const Header = () => {
  
-    const [bookName,changeBook] = useState("");
-    const [books,addBooks] = useState([]);
+    const [bookName,setBookName] = useState("");
+    const [books,SetBooks] = useState([]);
     const [filteredBooks, setFilteredBooks] = useState([]);
     const [hide,changeHide] = useState(true);
    
   const  handleEvent = (e) => {
-      changeBook(e.target.value); 
+      setBookName(e.target.value); 
     
                 
    };
 
    const addChild = (e) => {
       e.preventDefault();
-      addBooks([...books,bookName]);
+      SetBooks([...books,bookName]);
       setFilteredBooks([...books,bookName]);
-      changeBook("");
+      setBookName("");
       
      
    };
@@ -34,20 +34,26 @@ const Header = () => {
 
 
    const deleteBook = (i) => {
-      addBooks(books.filter((book,index) => index !== i));
+      SetBooks(books.filter((book,index) => index !== i));
       setFilteredBooks(filteredBooks.filter((book,index) => index !== i));
    } 
  
 
    const searchBooks = (event) => {
          event.preventDefault();
-         const query = event.target.value; 
-         if (query) {
-             const results = books.filter(book => book.includes(query));
+         const searchItem  = event.target.value; 
+         try{
+         if (searchItem) {
+             const results = books.filter(book => book.includes(searchItem));
              setFilteredBooks(results);
          } else {
              setFilteredBooks(books); 
          }
+
+      }
+         catch(error){
+         alert(error.message);
+      }
        
    }
    
