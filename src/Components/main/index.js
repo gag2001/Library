@@ -11,6 +11,7 @@ const Header = () => {
 
   const handleEvent = (e) => {
     setBookName(e.target.value);
+    alert('');
   };
 
   const addChild = (e) => {
